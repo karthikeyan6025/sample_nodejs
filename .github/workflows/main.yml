@@ -35,7 +35,7 @@ jobs:
           #docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${CODEBUILD_RESOLVED_SOURCE_VERSION}
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
           #docker push ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${CODEBUILD_RESOLVED_SOURCE_VERSION}
-          sudo apt install python-pip -y
-          sudo pip install ecs-deploy
-          ecs deploy --profile stage --timeout 1200 --region us-east-1 easytest easytest --tag latest
-          # aws ecs update-service --cluster <YOUR_ECS_CLUSTER_NAME> --service <YOUR_ECS_SERVICE_NAME> --force-new-deployment
+          #sudo apt install python-pip -y
+          #sudo pip install ecs-deploy
+          #ecs deploy --profile stage --timeout 1200 --region us-east-1 easytest easytest --tag latest
+          aws ecs update-service --cluster easytest --service easytest --force-new-deployment
