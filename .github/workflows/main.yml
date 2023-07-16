@@ -28,6 +28,7 @@ jobs:
       - name: Build and Deploy
         run: |
           cd .  # Replace with your application's directory
+          $(aws ecr get-login --no-include-email --region ${{ env.AWS_DEFAULT_REGION }})
           docker build -t ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} .
           docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
