@@ -32,7 +32,7 @@ jobs:
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           docker build -t ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} .
           docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
-          docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${CODEBUILD_RESOLVED_SOURCE_VERSION}
+          #docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${CODEBUILD_RESOLVED_SOURCE_VERSION}
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
-          docker push ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${CODEBUILD_RESOLVED_SOURCE_VERSION}
+          #docker push ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${CODEBUILD_RESOLVED_SOURCE_VERSION}
           # aws ecs update-service --cluster <YOUR_ECS_CLUSTER_NAME> --service <YOUR_ECS_SERVICE_NAME> --force-new-deployment
