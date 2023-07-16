@@ -29,15 +29,16 @@ jobs:
         run: |
           cd .  # Replace with your application's directory
           echo "My Cluster Name: $AWS_ECS_CLUSTER_STAGE"
+          echo "GITHUB_SHA: ${GITHUB_SHA}"
           #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 387232581030.dkr.ecr.us-east-1.amazonaws.com
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-          docker build -t ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} .
-          docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
+          #aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+          #docker build -t ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} .
+          #docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
           #docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${CODEBUILD_RESOLVED_SOURCE_VERSION}
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
+          #docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
           #docker push ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${CODEBUILD_RESOLVED_SOURCE_VERSION}
-          sudo apt install python3-pip -y
-          sudo pip3 install ecs-deploy
+          #sudo apt install python3-pip -y
+          #sudo pip3 install ecs-deploy
           #ecs deploy --timeout 1200 --region $REGION $AWS_ECS_CLUSTER_STAGE $AWS_ECS_SERVICE_STAGE --tag latest
           #ecs deploy --timeout 1200 --region us-east-1 easytest easytest --tag latest
           #aws ecs update-service --cluster easytest --service easytest --force-new-deployment
