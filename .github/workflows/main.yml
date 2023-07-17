@@ -34,11 +34,11 @@ jobs:
           echo "GITHUB_SHA: ${GITHUB_SHA}"
           #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 387232581030.dkr.ecr.us-east-1.amazonaws.com
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-          docker build -t ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} .
-          docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
-          docker tag ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }} ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${GITHUB_SHA}
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${{ env.YOUR_IMAGE_TAG }}
-          docker push ${{ env.YOUR_IMAGE_NAME }}:${{ env.YOUR_IMAGE_TAG }}:${GITHUB_SHA}
+          docker build -t ${{ env.YOUR_IMAGE_NAME }} .
+          docker tag ${{ env.YOUR_IMAGE_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
+          docker tag ${{ env.YOUR_IMAGE_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${GITHUB_SHA}
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${GITHUB_SHA}
           sudo apt install python3-pip -y
           sudo pip3 install ecs-deploy
           ecs deploy --timeout 1200 --region ${{ vars.REGION }} ${{ vars.AWS_ECS_CLUSTER_STAGE }} ${{ vars.AWS_ECS_SERVICE_STAGE }} --tag ${GITHUB_SHA}
