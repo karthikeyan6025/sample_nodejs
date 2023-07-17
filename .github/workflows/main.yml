@@ -29,18 +29,28 @@ jobs:
       - name: Build and Deploy
         run: |
           cd .  # Replace with your application's directory
-          echo "My Cluster Name: ${{ vars.AWS_ECS_CLUSTER_STAGE }}"
-          echo "My Image name: ${{ env.YOUR_IMAGE_NAME}}"
-          echo "GITHUB_SHA: ${GITHUB_SHA}"
+          # ECR Login
           #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 387232581030.dkr.ecr.us-east-1.amazonaws.com
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+          # Docker build 
           docker build -t ${{ env.YOUR_IMAGE_NAME }} .
+          # Docker tag with latest and commit id
           docker tag ${{ env.YOUR_IMAGE_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
           docker tag ${{ env.YOUR_IMAGE_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${GITHUB_SHA}
+          # Docker push to ECR
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${GITHUB_SHA}
+          # Installing ecs-deploy
           sudo apt install python3-pip -y
           sudo pip3 install ecs-deploy
+          # Deploying to ECS
           ecs deploy --timeout 1200 --region ${{ vars.REGION }} ${{ vars.AWS_ECS_CLUSTER_STAGE }} ${{ vars.AWS_ECS_SERVICE_STAGE }} --tag ${GITHUB_SHA}
           #ecs deploy --timeout 1200 --region us-east-1 easytest easytest --tag latest
           #aws ecs update-service --cluster easytest --service easytest --force-new-deployment
+
+# NOTES TO SELF
+# if you want to refer the env declared in the worflow file then use ${{ env.YOUR_IMAGE_NAME }}
+# if you want to refer the env declared in the github variable then use ${{ vars.REGION }}
+# if you want to refer the secrets declared in github then use ${{ secrets.AWS_ACCOUNT_ID }}
+# variables decalred in the workflow file can be at top level(below "on" refered for entire work flow) jobs level(refered on jobs level),steps level(refered on steps level only)
+# GITHUB_SHA--> default environment variable refers to commit id automatically take you don't have to worry and declare its inbuild variable
