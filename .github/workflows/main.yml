@@ -9,7 +9,7 @@ env:
   YOUR_IMAGE_NAME: easydeploy
   YOUR_IMAGE_TAG: latest
   YOUR_ECR_REPOSITORY: easydeploy
-  AWS_ECS_CLUSTER_STAGE: ${{env.AWS_ECS_CLUSTER_STAGE}}
+  AWS_ECS_CLUSTER_STAGE: ${{ env.AWS_ECS_CLUSTER_STAGE }}
 
 jobs:
   build-and-deploy:
