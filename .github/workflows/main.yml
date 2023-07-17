@@ -29,6 +29,7 @@ jobs:
         run: |
           cd .  # Replace with your application's directory
           echo "My Cluster Name: ${{ env.AWS_ECS_CLUSTER_STAGE }}"
+          echo "My Image name: ${{ env.YOUR_IMAGE_NAME}}"
           echo "GITHUB_SHA: ${GITHUB_SHA}"
           #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 387232581030.dkr.ecr.us-east-1.amazonaws.com
           #aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
