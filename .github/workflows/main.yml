@@ -38,14 +38,14 @@ jobs:
           #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 387232581030.dkr.ecr.us-east-1.amazonaws.com
           #aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           # Docker build 
-          docker build -t ${{ env.YOUR_IMAGE_NAME }} .
+          sudo docker build -t ${{ env.YOUR_IMAGE_NAME }} .
           # Docker tag with latest and commit id
-          docker tag ${{ env.YOUR_IMAGE_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
+          sudo docker tag ${{ env.YOUR_IMAGE_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
           docker tag ${{ env.YOUR_IMAGE_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${GITHUB_SHA}
           # Docker push to ECR
-          docker login -u AWS -p $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${GITHUB_SHA}
+          sudo docker login -u AWS -p $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+          sudo docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
+          sudo docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${GITHUB_SHA}
           # Installing ecs-deploy
           #sudo apt install python3-pip -y
           #sudo pip3 install ecs-deploy
