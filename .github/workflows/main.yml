@@ -9,11 +9,11 @@ env:
   YOUR_IMAGE_NAME: easydeploy
   YOUR_IMAGE_TAG: latest
   YOUR_ECR_REPOSITORY: easydeploy
-  ECS_CLUSTER_STAGE: $AWS_ECS_CLUSTER_STAGE
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest #github managed runner
+    runs-on: [self-hosted, stage-build] #self managed runner
 
     steps:
       - name: Checkout Repository
@@ -54,3 +54,7 @@ jobs:
 # if you want to refer the secrets declared in github then use ${{ secrets.AWS_ACCOUNT_ID }}
 # variables decalred in the workflow file can be at top level(below "on" refered for entire work flow) jobs level(refered on jobs level),steps level(refered on steps level only)
 # GITHUB_SHA--> default environment variable refers to commit id automatically take you don't have to worry and declare its inbuild variable
+# CICD file in github is called as workflow file
+# It should be placed under .github/workflows directory
+# You can use any name to the file but it should be in yaml format file
+# extra self hosted tags are called labels in github
