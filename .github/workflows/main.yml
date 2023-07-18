@@ -41,8 +41,8 @@ jobs:
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:latest
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ env.YOUR_ECR_REPOSITORY }}:${GITHUB_SHA}
           # Installing ecs-deploy
-          sudo apt install python3-pip -y
-          sudo pip3 install ecs-deploy
+          #sudo apt install python3-pip -y
+          #sudo pip3 install ecs-deploy
           # Deploying to ECS
           ecs deploy --timeout 1200 --region ${{ vars.REGION }} ${{ vars.AWS_ECS_CLUSTER_STAGE }} ${{ vars.AWS_ECS_SERVICE_STAGE }} --tag ${GITHUB_SHA}
           #ecs deploy --timeout 1200 --region us-east-1 easytest easytest --tag latest
