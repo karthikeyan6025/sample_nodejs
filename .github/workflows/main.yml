@@ -29,7 +29,7 @@ jobs:
       - name: Build and Deploy
         run: |
           whoami
-          docker ps
+          sudo docker ps
           #cd .  # Replace with your application's directory
           # Installing AWS CLI
           #sudo apt-get update && apt-get install -y pip
